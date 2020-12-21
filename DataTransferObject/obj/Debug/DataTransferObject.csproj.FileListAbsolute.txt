@@ -1,0 +1,6 @@
+C:\Users\lukas\Desktop\VIS\PAU0031\DeliveryIS\DataTransferObject\bin\Debug\DataTransferObject.dll
+C:\Users\lukas\Desktop\VIS\PAU0031\DeliveryIS\DataTransferObject\bin\Debug\DataTransferObject.pdb
+C:\Users\lukas\Desktop\VIS\PAU0031\DeliveryIS\DataTransferObject\obj\Debug\DataTransferObject.csprojAssemblyReference.cache
+C:\Users\lukas\Desktop\VIS\PAU0031\DeliveryIS\DataTransferObject\obj\Debug\DataTransferObject.csproj.CoreCompileInputs.cache
+C:\Users\lukas\Desktop\VIS\PAU0031\DeliveryIS\DataTransferObject\obj\Debug\DataTransferObject.dll
+C:\Users\lukas\Desktop\VIS\PAU0031\DeliveryIS\DataTransferObject\obj\Debug\DataTransferObject.pdb
