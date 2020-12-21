@@ -1,0 +1,7 @@
+C:\Users\lukas\Desktop\AuctionSystemORM_sqls\AuctionSystemORM_sqls\bin\Debug\AuctionSystemORM.exe.config
+C:\Users\lukas\Desktop\AuctionSystemORM_sqls\AuctionSystemORM_sqls\bin\Debug\AuctionSystemORM.exe
+C:\Users\lukas\Desktop\AuctionSystemORM_sqls\AuctionSystemORM_sqls\bin\Debug\AuctionSystemORM.pdb
+C:\Users\lukas\Desktop\AuctionSystemORM_sqls\AuctionSystemORM_sqls\obj\Debug\AuctionSystemORM.csprojAssemblyReference.cache
+C:\Users\lukas\Desktop\AuctionSystemORM_sqls\AuctionSystemORM_sqls\obj\Debug\AuctionSystemORM.csproj.CoreCompileInputs.cache
+C:\Users\lukas\Desktop\AuctionSystemORM_sqls\AuctionSystemORM_sqls\obj\Debug\AuctionSystemORM.exe
+C:\Users\lukas\Desktop\AuctionSystemORM_sqls\AuctionSystemORM_sqls\obj\Debug\AuctionSystemORM.pdb
