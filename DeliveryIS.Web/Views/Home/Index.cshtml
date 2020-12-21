@@ -1,0 +1,467 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    .collection {
+        display: grid;
+        grid-auto-columns: max-content;
+        grid-auto-flow: dense;
+        grid-auto-rows: minmax(100px, auto);
+        grid-gap: 30px;
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 1500px;
+    }
+
+    .product {
+        margin-left: 1vw;
+        grid-column: span 1;
+        grid-row: span 1;
+        &:nth-of-type(3n + 1);
+
+
+    {
+        grid-column: span 2;
+    }
+
+    // &:nth-of-type(2n) {
+        // grid-row: span 2;
+        //
+    }
+
+    //--- JUST VISUAL STYLING BELOW
+    &__image {
+        background-color: lightblue;
+        display: block;
+        height: 100%;
+        min-height: 200px;
+        width: 100%;
+    }
+
+    &__name {
+        p
+
+    {
+        font-family: sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        a
+
+    {
+        color: #000000;
+        text-decoration: none;
+    }
+
+    }
+    }
+
+    &__price {
+        p
+
+    {
+        font-family: sans-serif;
+        font-size: 50%;
+    }
+
+    h1 {
+        display: inline;
+        vertical-align: top
+    }
+
+    .big {
+        font-size: 9em;
+        line-height: 49px;
+    }
+
+    .text {
+        font-size: 2em;
+    }
+
+    .container {
+        height: 15em;
+    }
+
+    }
+
+    th, td, p, input {
+        font: 14px Verdana;
+        background-color: dimgray;
+    }
+
+    table, th, td {
+        border: solid 1px #DDD;
+        border-collapse: collapse;
+        padding: 2px 3px;
+        text-align: left;
+        background-color: dimgray;
+    }
+
+    th {
+        font-weight: bold;
+    }
+
+    col {
+        width: 25px;
+    }
+</style>
+
+<style>
+    th, td, p, input {
+        font: 15px Verdana;
+    }
+
+    table, th, td {
+        border: solid 2px #DDD;
+        padding: 15px 15px;
+        text-align: left;
+        width: 70%;
+        margin-left: 3%;
+    }
+
+    th {
+        font-weight: bold;
+    }
+</style>
+
+<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<script>
+
+    var totalPrice = 0;
+    var productString = "";
+
+    var myBooks = [
+        {
+            "Značka": " ",
+            "Názov": " ",
+            "Počet kusov": " ",
+            "Cena za kus": " ",
+            "Cena": " "
+        }
+    ]
+
+
+    function addToCart(brandNumber, brand, name, price) {
+
+
+        var myDate = new Date();
+        var myKey = myDate.getTime();
+
+        var productBrand = brand;
+        var productName = name;
+        var productPrice = price;
+        var pieces = 0;
+
+        if (brandNumber == 30) {
+            pieces += $("#sel1").val();
+        }
+        if (brandNumber == 31) {
+            pieces += $("#sel2").val();
+        }
+        if (brandNumber == 32) {
+            pieces += $("#sel3").val();
+        }
+        if (brandNumber == 33) {
+            pieces += $("#sel4").val();
+        }
+
+        var tPrice = price * pieces;
+        tPrice = Math.round((tPrice + Number.EPSILON) * 100) / 100;
+
+        var taskAsObject = {
+            brand: productBrand, name: productName, price: productPrice,
+            productPieces: pieces, total: Number((tPrice).toFixed(2))
+        };
+        var taskAsJSON = JSON.stringify(taskAsObject);
+
+        alert("Do košíka ste vložili " + pieces + "x " + productName + " " + productBrand + " za cenu " + tPrice + "€");
+
+        if (tPrice > 0) {
+            localStorage.setItem(myKey, taskAsJSON);
+        }
+        document.getElementById('totalPrice').textContent = totalPrice;
+
+        CreateTableFromJSON(productBrand, productName, pieces, productPrice, tPrice);
+
+        for (var i = 0; i < pieces; i++) {
+            productString += brandNumber + ",";
+        }
+
+
+        ; (function () {
+
+
+            totalPrice += tPrice;
+            totalPrice = Math.round((totalPrice + Number.EPSILON) * 100) / 100;
+
+            var dom = {
+                counter: document.getElementById('totalPrice')
+            };
+            dom.counter.textContent = "Spolu: " + totalPrice + "€";
+
+
+        }())
+
+
+    }
+
+    function clearCart() {
+        localStorage.clear();
+        var divContainer = document.getElementById("showData");
+        divContainer.innerHTML = "";
+
+        totalPrice = 0;
+
+        var dom = {
+            counter: document.getElementById('totalPrice')
+        };
+        dom.counter.textContent = totalPrice + "€";
+    }
+
+    function ConfirmOrder() {
+
+        //ShipmentProcessor.CreateAndUpdateShipment("VISTEST", 2, 1, 2, 2, productString);
+        alert("Vaša objednávka sa pripravuje!");
+
+    }
+
+
+    function CreateTableFromJSON(brand, name, pieces, priceP, price) {
+
+        cartItems = [
+            {
+                "Značka": brand,
+                "Názov": name + "",
+                "Počet kusov": pieces.slice(1, 5) + "ks" + "",
+                "Cena": price + "€" + ""
+            }
+        ]
+
+
+        var col = [];
+        for (var i = 0; i < cartItems.length; i++) {
+            for (var key in cartItems[i]) {
+                if (col.indexOf(key) === -1) {
+                    col.push(key);
+                }
+            }
+        }
+
+        var table = document.createElement("table");
+
+
+        var tr = table.insertRow(-1);
+
+        for (var i = 0; i < cartItems.length; i++) {
+
+            tr = table.insertRow(-1);
+
+            for (var j = 0; j < col.length; j++) {
+                var tabCell = tr.insertCell(-1);
+                tabCell.innerHTML = cartItems[i][col[j]];
+            }
+        }
+
+        var divContainer = document.getElementById("showData");
+        divContainer.appendChild(table);
+    }
+
+    function GetMessage() {
+        $.get("/HomeController/Index", function (data) {
+            $("p").html(data);
+        });
+    }
+
+
+
+</script>
+
+
+<div class="navbar navbar-inverse navbar-fixed-top" style="background-color: black;">
+    <a href="@Url.Action("Index", "Home")">
+        <img src="https://vin.imgix.net/uploads/provider/5ee7631888a3b.png" alt="Lampds" width="150" height="90" style="margin-left: 5%;">
+    </a>
+
+
+    <ion-icon size="large" style="color: white; float: right; margin-top: 1.5%; margin-right: 20%;" name="bag-handle-outline"></ion-icon>
+
+
+
+
+    <div class="container">
+
+        <div class="navbar-header">
+
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" ">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="collection" style="margin-top: 5%;">
+
+
+    <div class="product" style="margin-top: 2%;">
+        <a class="product__image" href="">
+            <a href="">
+                <img src="https://cdn.notinoimg.com/detail_zoom/dior/3348901486385xx_03/dior-sauvage-parfem-pre-muzov_.jpg" alt="Lamp" width="125%" height="70%">
+            </a>
+        </a>
+        <div class="product__name">
+            <h3 style="margin-left: 5%; display: inline;">
+                Dior <b>Sauvage</b>
+            </h3><br />
+            <h4 style="margin-left: 5%; display: inline;">
+                153,00€
+            </h4>
+        </div>
+        <div class="form-group" style="width: 30%; margin-left: 5%; margin-top: 5%;">
+            <label for="sel1"></label>
+
+            <select class="form-control" id="sel1" style=" display: inline; float:left;">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+            </select>
+            <button type="button" onclick="addToCart(30, 'Dior', 'Sauvage', 153.00);" class="btn btn-secondary btn-lg"
+                    style="background-color: #202020; color:white; display: inline; margin-top: -85%;
+                    margin-left: 220%;">
+                Do košíka
+            </button>
+        </div>
+
+    </div>
+
+
+    <div class="product" style="margin-top: 2%;">
+        <a class="product__image" href="">
+            <a href="">
+                <img src="https://cdn.notinoimg.com/detail_zoom/armani/3360372078500_03/armani-acqua-di-gio-pour-homme-toaletna-voda-pre-muzov___33.jpg" alt="Lamp" width="125%" height="70%">
+            </a>
+        </a>
+        <div class="product__name">
+            <h3 style="margin-left: 5%; display: inline;">
+                Armani  <b>Acqua di Giò</b>
+            </h3><br />
+            <h4 style="margin-left: 5%; display: inline;">
+                77,90€
+            </h4>
+        </div>
+        <div class="form-group" style="width: 30%; margin-left: 5%; margin-top: 5%;">
+            <label for="sel1"></label>
+
+            <select class="form-control" id="sel2" style=" display: inline; float:left;">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+            </select>
+            <button type="button" onclick="addToCart(31, 'Armani', 'Acqua di Giò', 77.90);" class="btn btn-secondary btn-lg"
+                    style="background-color: #202020; color:white; display: inline; margin-top: -85%;
+                    margin-left: 220%;">
+                Do košíka
+            </button>
+        </div>
+
+    </div>
+
+
+
+    <div class="product" style="margin-top: 2%;">
+        <a class="product__image" href="">
+            <a href="">
+                <img src="https://cdn.notinoimg.com/detail_zoom/yves-saint-laurent/3614272050358_22/yves-saint-laurent-y-parfumovana-voda-pre-muzov___3.jpg" alt="Lamp" width="125%" height="70%">
+            </a>
+        </a>
+        <div class="product__name">
+            <h3 style="margin-left: 5%; display: inline;">
+                Yves Saint Laurent <b>Y</b>
+            </h3><br />
+            <h4 style="margin-left: 5%; display: inline;">
+                85,90€
+            </h4>
+        </div>
+        <div class="form-group" style="width: 30%; margin-left: 5%; margin-top: 5%;">
+            <label for="sel3"></label>
+
+            <select class="form-control" id="sel3" style=" display: inline; float:left;">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+            </select>
+            <button type="button" onclick="addToCart(32, 'Yves Saint Laurent', 'Y', 85.90);" class="btn btn-secondary btn-lg"
+                    style="background-color: #202020; color:white; display: inline; margin-top: -85%;
+                    margin-left: 220%;">
+                Do košíka
+            </button>
+        </div>
+
+
+
+    </div>
+
+    <div class="product" style="margin-top: 2%;">
+        <a class="product__image" href="">
+            <a href="">
+                <img src="https://cdn.notinoimg.com/detail_zoom/dior/3348900417878xx_04/dior-jadore-parfumovana-voda-pre-zeny___35.jpg" alt="Lamp" width="125%" height="70%">
+            </a>
+        </a>
+        <div class="product__name">
+            <h3 style="margin-left: 5%; display: inline;">
+                Dior <b>J'adore</b>
+            </h3><br />
+            <h4 style="margin-left: 5%; display: inline;">
+                120,50€
+            </h4>
+        </div>
+        <div class="form-group" style="width: 30%; margin-left: 5%; margin-top: 5%;">
+            <label for="sel1"></label>
+
+            <select class="form-control" id="sel4" style=" display: inline; float:left;">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+            </select>
+            <button type="button" onclick="addToCart(33, 'Dior', 'Jadore', 120.50);" class="btn btn-secondary btn-lg"
+                    style="background-color: #202020; color:white; display: inline; margin-top: -85%;
+                    margin-left: 220%;">
+                Do košíka
+            </button>
+        </div>
+
+    </div>
+
+
+</div>
+<br />
+<br />
+<p style="display: inline; background-color: dimgray; background-color: dimgray;" id="showData"></p>
+<br />
+<h3 style="margin-left:3%; display: inline; float: left" name="bag-handle-outline"> <span id="totalPrice"></span></h3>
+
+<button type="button" onclick="ConfirmOrder();" class="btn btn-secondary btn-lg"
+        style="background-color: #287c37; color:white; display: inline; margin-left: 27%;">
+    Potvrdiť objednávku
+</button>
+<button type="button" onclick="clearCart();" class="btn btn-secondary btn-lg"
+        style="background-color:  #850e04; color:white; display: inline; margin-left: 1%;">
+    Vyčistiť košík
+</button>
+
+
+<input type="button" onclick="GetMessage()" value="Get Message" />
+<p></p>
